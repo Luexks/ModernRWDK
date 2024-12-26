@@ -154,7 +154,7 @@ class EnumFeature extends RichEnum {
 	static final EnumFeature TRACTOR = new EnumFeature("TRACTOR","Collects R packets.", "magnet", "Resource Collector");
 	static final EnumFeature ROOT = new EnumFeature("ROOT","Can attach to asteroids and blocks marked ENVIRONMENTAL.");
 	static final EnumFeature PHOTOSYNTH = new EnumFeature("PHOTOSYNTH","Generates resources over time.", "leaf", "Resource Generator");
-	//static final EnumFeature AUTOLAUNCH = new EnumFeature("AUTOLAUNCH","Weapon fires by itself without reason.");
+	static final EnumFeature AUTOLAUNCH = new EnumFeature("AUTOLAUNCH","Weapon fires by itself without reason.");
 	static final EnumFeature FREERES = new EnumFeature("FREERES","Does not drop resources when destroyed. Good for missiles and drones.");
 	static final EnumFeature FACTORY = new EnumFeature("FACTORY","Allows construction of other ships.", "cog", "Factory");
 	static final EnumFeature SEED = new EnumFeature("SEED","Can plant on ENVIRONMENTAL blocks and asteroids. Will thrust if also a THRUSTER. Enables the command settings section.");
