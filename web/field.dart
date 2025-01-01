@@ -366,7 +366,7 @@ class FieldBlock extends FieldModule {
 					this.readout.text = "[Block with ID ${id}]";
 				}
 			} else {
-				this.readout.text = "[Block defined inside${this.module.fields["name"].active ? ": \"${this.module.get("name")}\"" : ""}]";
+				this.readout.text = "[Block defined inside${this.module.fields["name"].active ? ": \"${this.module.get("name")}\"" : ""}]"; //" Fixes vscode stupidity
 			}
 		}
 	}

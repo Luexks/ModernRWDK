@@ -407,6 +407,7 @@ class ModuleBlock extends Module {
 	ModuleBlock([bool spawned = false]) {
 		this.addField(new FieldIdent("ident", "Block ID. Must be unique. Subject to relocation.")..setFixed(!spawned));
 		this.addField(new FieldInt("extends", "Warning: in the M-RWDK, this does not affect rendering. Block ID of the block that this block will copy the features of. Anything that is redefined in this block will be different. If this block uses a different shape or scale to the block it extends, make sure firts block's durability is not 1, as health will not be recalculated."));
+		this.addField(new FieldInt("sort", "Decides how blocks are sorted in the database and when they are unlocked. Unneeded for scales that do not show up in the database."));
 		this.addField(new FieldInt("group", "Faction ID of the faction this block belongs to."));
 		this.addField(new FieldEnum("features", "Block features.", EnumFeature.values));
 		this.addBreak();
@@ -517,7 +518,12 @@ class ModuleBlock extends Module {
 		this.addField(new FieldDouble("launcherSpeed", "ONLY FOR TURRETED LAUNCHERS. Velocity of launched block."), (Field f) => enumVal(f, "features", EnumFeature.LAUNCHER));
 		this.addField(new FieldDouble("launcherOutSpeed", "ONLY FOR NON-TURRETED LAUNCHERS. Velocity of launched block."), (Field f) => enumVal(f, "features", EnumFeature.LAUNCHER));
 		this.addField(new FieldDouble("launcherAngVel", ""), (Field f) => enumVal(f, "features", EnumFeature.LAUNCHER));
+		this.addBreak();
 
+		this.addField(new FieldDouble("finForce", "How powerful the fin is.", 100.0), (Field f) => enumVal(f, "features", EnumFeature.FIN));
+		this.addBreak();
+
+		this.addField(new FieldDouble("elasticity", "How bouncy a block is.", 0.4));
 	}
 
 	void updateSpecific(bool ticktock) {
@@ -544,6 +550,7 @@ class ModuleCannon extends Module {
 		this.addField(new FieldDouble("roundsPerSec", "Shots fired per second."));
 		this.addField(new FieldDouble("muzzleVel", "Velocity of fired rounds."));
 		this.addField(new FieldDouble("range", "Weapon range. Rounds are destroyed when reaching this distance."));
+		this.addField(new FieldDouble("recoil", "Amount of force experienced per shot fired."));
 		this.addField(new FieldDouble("spread", "Maximum random deviation from weapon facing, measured in radians. 1 radian ~= 57.3 degrees.", 0.0, degreeReadout));
 		this.addBreak();
 		
@@ -602,6 +609,7 @@ class ModuleCannonBoost extends Module {
 		this.addField(new FieldBooster("power", "Energy consumption per shot."));
 		this.addField(new FieldBooster("range", "Projectile range."));
 		this.addField(new FieldBooster("roundsPerSec", "Rounds fired per second."));
+		this.addField(new FieldBooster("spread", "Maximum random deviation from weapon facing, measured in radians. 1 radian ~= 57.3 degrees."));
 	}
 }
 

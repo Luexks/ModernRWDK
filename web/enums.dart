@@ -171,8 +171,8 @@ class EnumFeature extends RichEnum {
 	//static final EnumFeature PERISHABLE = new EnumFeature("PERISHABLE","Has a limited lifetime after which it will deconstruct.");
 	static final EnumFeature ROTATOR = new EnumFeature("ROTATOR","Like TURRET, but for thrusters.");
 	static final EnumFeature ACTIVATE = new EnumFeature("ACTIVATE","Block can be activated.");
-	static final EnumFeature PALETTE = new EnumFeature("PALETTE","Block does not need to be on a ship to show up in the palette.");
-	static final EnumFeature NOPALETTE = new EnumFeature("NOPALETTE","Block will not show up in the palette.");
+	static final EnumFeature PALETTE = new EnumFeature("PALETTE","Block does not need to be on a ship to show up in the player's database.");
+	static final EnumFeature NOPALETTE = new EnumFeature("NOPALETTE","Block will not show up in the player's database.");
 	static final EnumFeature UNIQUE = new EnumFeature("UNIQUE","Used internally for blocks that cannot be deleted or copied in the editor. Never use.");
 	static final EnumFeature BUMPER = new EnumFeature("BUMPER","Invulnerability to melee damage.");
 	static final EnumFeature NOCLIPALLY = new EnumFeature("NOCLIP_ALLY","Does not collide with objects with the same faction.", "random", "Does not collide with allies");
@@ -180,9 +180,11 @@ class EnumFeature extends RichEnum {
 	static final EnumFeature NORECOLOR = new EnumFeature("NORECOLOR","Block cannot be recolored.");
 	static final EnumFeature LAUNCHERBARRAGE = new EnumFeature("LAUNCHER_BARRAGE","Warning: inconsistent. Launcher regenerates all missiles before firing them all at once.");
 	static final EnumFeature NOICON = new EnumFeature("NOICON","Block does not render icons. This includes turret circles.");
-	static final EnumFeature ALWAYSFIRE = new EnumFeature("ALWAYSFIRE","Weapon fires by itself without reason.");
+	static final EnumFeature ALWAYSFIRE = new EnumFeature("ALWAYSFIRE","Weapon fires by itself without reason and is ignored by the AI.");
+	static final EnumFeature NEVERFIRE = new EnumFeature("NEVERFIRE","Weapon fires by itself without reason and is ignored by the AI.");
+	static final EnumFeature FIN = new EnumFeature("FIN","Block converts velocity in any direction to forward motion.");
 	
-	static List<RichEnum> values = [COMMAND, THRUSTER, GENERATOR, TURRET, CANNON, LASER, SHIELD, TORQUER, LAUNCHER, EXPLODE, ASSEMBLER, REGROWER, CANNON_BOOST, INVULNERABLE, NOREGEN, ENVIRONMENTAL, TRACTOR, ROOT, PHOTOSYNTH, FREERES, FACTORY, SEED, CHARGING, MELEE, SELFFACTORY, NOCLIP, INVISIBLE, TELEPORTER, DEACTIVATES, TELESPAWN, AUTOFIRE, INTLINES, AUTOLAUNCH, ROTATOR, ACTIVATE, PALETTE, NOPALETTE, UNIQUE, BUMPER, NOCLIPALLY, ONEUSE, NORECOLOR, LAUNCHERBARRAGE, NOICON, ALWAYSFIRE];
+	static List<RichEnum> values = [COMMAND, THRUSTER, GENERATOR, TURRET, CANNON, LASER, SHIELD, TORQUER, LAUNCHER, EXPLODE, ASSEMBLER, REGROWER, CANNON_BOOST, INVULNERABLE, NOREGEN, ENVIRONMENTAL, TRACTOR, ROOT, PHOTOSYNTH, FREERES, FACTORY, SEED, CHARGING, MELEE, SELFFACTORY, NOCLIP, INVISIBLE, TELEPORTER, DEACTIVATES, TELESPAWN, AUTOFIRE, INTLINES, AUTOLAUNCH, ROTATOR, ACTIVATE, PALETTE, NOPALETTE, UNIQUE, BUMPER, NOCLIPALLY, ONEUSE, NORECOLOR, LAUNCHERBARRAGE, NOICON, ALWAYSFIRE, NEVERFIRE, FIN];
 }
 
 class EnumAsteroidFeature extends RichEnum {

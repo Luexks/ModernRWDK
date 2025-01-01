@@ -290,6 +290,7 @@ class BlockRenderer {
 		bool photosynth = ffeatures.active && ffeatures.theEnum[EnumFeature.PHOTOSYNTH];
 		bool launcher = ffeatures.active && ffeatures.theEnum[EnumFeature.LAUNCHER];
 		bool factory = ffeatures.active && ffeatures.theEnum[EnumFeature.FACTORY];
+		bool rotator = ffeatures.active && ffeatures.theEnum[EnumFeature.ROTATOR];
 		bool generator = ffeatures.active && ffeatures.theEnum[EnumFeature.GENERATOR];
 		bool turret = ffeatures.active && ffeatures.theEnum[EnumFeature.TURRET];
 		bool laser = ffeatures.active && ffeatures.theEnum[EnumFeature.LASER];
