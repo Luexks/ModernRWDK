@@ -378,8 +378,24 @@ class ModuleBlock extends Module {
 				points += 500.0;
 			}
 
+    // tractor
 			if (enumValModule(this, "features", EnumFeature.TRACTOR)) {
 				points += 500.0;
+			}
+
+    // autolaunch
+			if (enumValModule(this, "features", EnumFeature.AUTOLAUNCH)) {
+				// points += 0;
+			}
+
+    // rotator
+			if (enumValModule(this, "features", EnumFeature.ROTATOR)) {
+				// points += 0;
+			}
+
+    // activate
+			if (enumValModule(this, "features", EnumFeature.ACTIVATE)) {
+				// points += 0;
 			}
 		}
 
@@ -390,7 +406,8 @@ class ModuleBlock extends Module {
 
 	ModuleBlock([bool spawned = false]) {
 		this.addField(new FieldIdent("ident", "Block ID. Must be unique. Subject to relocation.")..setFixed(!spawned));
-		this.addField(new FieldInt("group", "Faction ID of the faction this block belongs to.")..setFixed());
+		this.addField(new FieldInt("extends", "Warning: in the M-RWDK, this does not affect rendering. Block ID of the block that this block will copy the features of. Anything that is redefined in this block will be different. If this block uses a different shape or scale to the block it extends, make sure firts block's durability is not 1, as health will not be recalculated."));
+		this.addField(new FieldInt("group", "Faction ID of the faction this block belongs to."));
 		this.addField(new FieldEnum("features", "Block features.", EnumFeature.values));
 		this.addBreak();
 		
@@ -447,6 +464,9 @@ class ModuleBlock extends Module {
 		this.addField(new FieldDouble("launchLifetime", "", -1.0), (Field f) => enumVal(f, "features", EnumFeature.SEED));
 		this.addField(new FieldDouble("launchResources", ""), (Field f) => enumVal(f, "features", EnumFeature.SEED));
 		this.addBreak();
+
+		this.addField(new FieldDouble("activatePower", "Power per second needed to activate this block.", 30.0), (Field f) => enumVal(f, "features", EnumFeature.ACTIVATE));
+		this.addBreak();
 		
 		this.addField(new FieldModule("shield", "Shield properties. Reliant upon the SHIELD feature.", new ModuleShield())..setFixed(), (Field f) => enumVal(f, "features", EnumFeature.SHIELD));
 		this.addBreak();
@@ -456,6 +476,10 @@ class ModuleBlock extends Module {
         this.addField(new FieldDouble("photosynthPerSec", "Resources generated per second by photosynth blocks.", 1.0), (Field f) => enumVal(f, "features", EnumFeature.PHOTOSYNTH));
 		this.addField(new FieldDouble("generatorCapacityPerSec", "Energy generated per second by generators."), (Field f) => enumVal(f, "features", EnumFeature.GENERATOR));
 		this.addField(new FieldDouble("powerCapacity", "Energy capacity of generator blocks."), (Field f) => enumVal(f, "features", EnumFeature.GENERATOR));
+		this.addBreak();
+
+		this.addField(new FieldDouble("rotatorSpeed", "Rotational speed in radians per second. 1 radian ~= 57.3 degrees.", 6.0, (FieldDouble f) { return degreeReadout(f)+"/sec"; }), (Field f) => enumVal(f, "features", EnumFeature.ROTATOR));
+		this.addField(new FieldDouble("rotatorLimit", "DO NOT USED: VERY BUGGY. Rotational angle limit of the rotator. 1 radian ~= 57.3 degrees.", 45.0), (Field f) => enumVal(f, "features", EnumFeature.ROTATOR));
 		this.addBreak();
 		
 		this.addField(new FieldDouble("thrusterForce", "Force exerted by thruster blocks. Does not automatically scale with block size.", 10000.0), (Field f) => enumVal(f, "features", EnumFeature.THRUSTER));
@@ -467,12 +491,14 @@ class ModuleBlock extends Module {
 		
 		this.addField(new FieldDouble("torquerTorque", "Angular force applied by torquer blocks. Needs to be quite high to have any noticeable effect unless the ship is exceptionally light.", 10000.0), (Field f) => enumVal(f, "features", EnumFeature.TORQUER));
 		this.addField(new FieldDouble("teleporterPower", "Energy per mass (calculated against total mass) required for teleport blocks to teleport a ship.", 4.0), (Field f) => enumVal(f, "features", EnumFeature.TELEPORTER));
+		this.addField(new FieldDouble("teleporterRadius", "Teleporter range.", 400.0), (Field f) => enumVal(f, "features", EnumFeature.TELEPORTER));
 		this.addBreak();		
 		
 		this.addField(new FieldModule("cannon", "Cannon properties. Reliant upon the CANNON feature.", new ModuleCannon())..setFixed(), (Field f) => enumVal(f, "features", EnumFeature.CANNON));
 		this.addField(new FieldModule("cannonBoost", "Cannon booster properties. Reliant upon the CANNON_BOOST feature. Additions are applied together before multipliers.", new ModuleCannonBoost())..setFixed(), (Field f) => enumVal(f, "features", EnumFeature.CANNON_BOOST));
 		this.addField(new FieldModule("laser", "Laser properties. Reliant upon the LASER feature.", new ModuleLaser())..setFixed(), (Field f) => enumVal(f, "features", EnumFeature.LASER));
 		this.addField(new FieldDouble("turretSpeed", "Turret rotational speed in radians per second. 1 radian ~= 57.3 degrees.", 6.0, (FieldDouble f) { return degreeReadout(f)+"/sec"; }), (Field f) => enumVal(f, "features", EnumFeature.TURRET));
+		this.addField(new FieldDouble("turretLimit", "Rotational angle limit of the turret. 1 radian ~= 57.3 degrees.", 45.0), (Field f) => enumVal(f, "features", EnumFeature.TURRET));
 		this.addField(new FieldDouble("chargeMaxTime", "Time in seconds for charger weapons to achieve maximum charge.", 1.0), (Field f) => enumVal(f, "features", EnumFeature.CHARGING));
 		this.addField(new FieldDouble("chargeMin", "Fraction of charge at which a charging weapon may fire.", 0.1), (Field f) => enumVal(f, "features", EnumFeature.CHARGING));
 		this.addBreak();
@@ -488,9 +514,10 @@ class ModuleBlock extends Module {
         	}
         ), (Field f) => enumVal(f, "features", EnumFeature.LAUNCHER));
 		this.addField(new FieldDouble("launcherPower", "Power required to build a single launched block."), (Field f) => enumVal(f, "features", EnumFeature.LAUNCHER));
-		//this.addField(new FieldDouble("launcherSpeed", ""), (Field f) => enumVal(f, "features", EnumFeature.LAUNCHER));
-		this.addField(new FieldDouble("launcherOutSpeed", ""), (Field f) => enumVal(f, "features", EnumFeature.LAUNCHER));
+		this.addField(new FieldDouble("launcherSpeed", "ONLY FOR TURRETED LAUNCHERS. Velocity of launched block."), (Field f) => enumVal(f, "features", EnumFeature.LAUNCHER));
+		this.addField(new FieldDouble("launcherOutSpeed", "ONLY FOR NON-TURRETED LAUNCHERS. Velocity of launched block."), (Field f) => enumVal(f, "features", EnumFeature.LAUNCHER));
 		this.addField(new FieldDouble("launcherAngVel", ""), (Field f) => enumVal(f, "features", EnumFeature.LAUNCHER));
+
 	}
 
 	void updateSpecific(bool ticktock) {
@@ -584,6 +611,7 @@ class ModuleShield extends Module {
 		this.addField(new FieldDouble("regen", "Health regenerated per second. Also power per second needed to regenerate.", 20.0));
 		this.addField(new FieldDouble("radius", "Shield size.", 40.0));
 		this.addField(new FieldDouble("delay", "Delay in seconds after collapse before a shield begins to regenerate.", 3.0));
+		this.addField(new FieldDouble("power", "Power used per unit of health regenerated.", 1.0));
 		this.addField(new FieldDouble("armor", "Reduces incoming damage from non-explosive projectile weapons by the amount specified. Totally ineffective against any other damage source, making it useless against most weapons in the game. Use is not recommended as it leads to confusing and inconsistent behaviour. Included only for completeness.", 0.0));
 		this.addBreak();
 		
