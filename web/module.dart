@@ -524,6 +524,10 @@ class ModuleBlock extends Module {
 		this.addBreak();
 
 		this.addField(new FieldDouble("elasticity", "How bouncy a block is.", 0.4));
+		this.addBreak();
+
+		this.addField(new FieldDouble("health", "For really specific cases when it is more reasonable to define health directly instead of using durability.", 100.0));
+		this.addField(new FieldDouble("mass", "For really specific cases when it is more reasonable to define mass directly instead of using density.", 10.0));
 	}
 
 	void updateSpecific(bool ticktock) {
